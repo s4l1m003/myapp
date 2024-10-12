@@ -97,14 +97,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            WelcomeScreen(name: _nameController.text),
+                            WelcomeScreen(name: _nameController.text), // Pass 'name' in lowercase
                       ),
                     );
                   }
                 },
                 child: Text('Sign Up'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                   textStyle: TextStyle(fontSize: 16),
                 ),
