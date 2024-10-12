@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // Function to check if the entered credentials are valid
+  Future<bool> validateUser(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedPassword = prefs.getString(email);
+    return storedPassword != null && storedPassword == password;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,29 +49,25 @@ class LoginScreen extends StatelessWidget {
 
             // Login Button
             ElevatedButton(
-              onPressed: () {
-                // Here you can add authentication logic
-                if (_emailController.text.isNotEmpty &&
-                    _passwordController.text.isNotEmpty) {
-                  // Show success message if login fields are filled
+              onPressed: () async {
+                String email = _emailController.text;
+                String password = _passwordController.text;
+
+                // Validate credentials
+                if (await validateUser(email, password)) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Login successful!'),
-                    ),
+                    SnackBar(content: Text('Login successful!')),
                   );
-                  Navigator.pop(context); // Navigate back to HomeScreen
+                  Navigator.pop(context); // Back to HomeScreen
                 } else {
-                  // Show error if fields are empty
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Please enter email and password.'),
-                    ),
+                    SnackBar(content: Text('Invalid email or password.')),
                   );
                 }
               },
               child: Text('Login'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.yellow,
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 textStyle: TextStyle(fontSize: 16),
               ),
