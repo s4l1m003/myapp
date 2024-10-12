@@ -4,7 +4,7 @@ class WelcomeScreen extends StatelessWidget {
   final String name;
 
   WelcomeScreen({required this.name});
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
